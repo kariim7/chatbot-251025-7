@@ -1,60 +1,73 @@
 import streamlit as st
 from openai import OpenAI
 
-# 앱 제목과 설명
-st.title("💬 답변이")
+# App title and description
+st.title("🗣️ 언어 학습 도우미 (Language Study Guide Chatbot)")
 st.write(
-    "이 앱은 OpenAI의 GPT 모델을 사용한 간단한 챗봇입니다. "
-    "사용하려면 OpenAI API 키를 입력해야 합니다. "
-    "[API 키 발급하기](https://platform.openai.com/account/api-keys)"
+    "이 챗봇은 다양한 언어 학습을 돕기 위한 도우미입니다. 🧠\n\n"
+    "문법 설명, 단어 연습, 회화 예문, 학습 계획 등 다양한 질문을 해보세요!\n"
+    "예시 질문:\n"
+    "- '영어로 시제 공부를 도와줘'\n"
+    "- '한국어 회화 연습할래요'\n"
+    "- '스페인어 단어 암기법 알려줘'\n\n"
+    "[OpenAI API 키 발급하기](https://platform.openai.com/account/api-keys)"
 )
 
-# OpenAI API 키 입력
+# OpenAI API key input
 openai_api_key = st.text_input("🔑 OpenAI API Key", type="password")
 
-# 종료(초기화) 버튼 추가
+# Reset/End button
 if st.button("🔄 종료 / 초기화"):
     st.session_state.clear()
-    st.success("✅ 대화가 초기화되었습니다. 새로 시작할 수 있습니다.")
+    st.success("✅ 대화가 초기화되었습니다. 새 언어 학습을 시작할 수 있습니다!")
     st.stop()
 
-# API 키 없으면 안내 메시지
+# Check for API key
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
 
 else:
-    # OpenAI 클라이언트 생성
+    # Initialize OpenAI client
     client = OpenAI(api_key=openai_api_key)
 
-    # 세션 상태에 messages 초기화
+    # Initialize chat history
     if "messages" not in st.session_state:
-        st.session_state.messages = []
+        st.session_state.messages = [
+            {
+                "role": "system",
+                "content": (
+                    "You are an expert **language learning guide** who helps users study any language "
+                    "such as English, Korean, Spanish, Japanese, or others. "
+                    "Give explanations, exercises, and friendly encouragement. "
+                    "Use both the target language and the user's language when helpful. "
+                    "Encourage practice and suggest learning techniques."
+                ),
+            }
+        ]
 
-    # 이전 메시지 표시
+    # Display chat history
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        if message["role"] != "system":
+            with st.chat_message(message["role"]):
+                st.markdown(message["content"])
 
-    # 사용자 입력 받기
-    if prompt := st.chat_input("무엇을 도와드릴까요?"):
-        # 사용자 메시지 저장 및 표시
+    # User input
+    if prompt := st.chat_input("배우고 싶은 언어나 질문을 입력하세요!"):
+        # Store and show user message
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user"):
             st.markdown(prompt)
 
-        # OpenAI 응답 생성 (스트리밍)
+        # Generate response (streaming)
         stream = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[
-                {"role": m["role"], "content": m["content"]}
-                for m in st.session_state.messages
-            ],
+            messages=st.session_state.messages,
             stream=True,
         )
 
-        # 응답 스트리밍 표시
+        # Stream and display response
         with st.chat_message("assistant"):
             response = st.write_stream(stream)
 
-        # 응답 저장
+        # Store assistant response
         st.session_state.messages.append({"role": "assistant", "content": response})
