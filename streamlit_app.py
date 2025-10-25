@@ -20,7 +20,7 @@ st.write(
     "알파벳, 발음, 기본 문장 표현을 익히는 데 도움이 됩니다.\n\n"
     "원문에서 시청하려면 [YouTube에서 보기](https://www.youtube.com/watch?v=4g2YGZC4T7E)를 클릭하세요."
 )
-st.video("https://www.youtube.com/watch?v=4g2YGZC4T7E")
+st.video("https://www.youtube.com/user/LearnArabicwithMaha")
 
 # OpenAI API key input
 openai_api_key = st.text_input("🔑 OpenAI API Key", type="password")
