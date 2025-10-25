@@ -13,13 +13,14 @@ st.write(
     "[OpenAI API 키 발급하기](https://platform.openai.com/account/api-keys)"
 )
 
-# 🎥 Reference YouTube video section
-st.subheader("🎬 참고 영상: 효과적인 언어 학습 방법")
+# 🎥 Reference YouTube video section (🔹아랍어 초급 영상으로 변경)
+st.subheader("🎬 참고 영상: 아랍어 초급 학습")
 st.write(
-    "아래 영상은 언어를 효율적으로 배우는 방법에 대한 유용한 팁을 제공합니다. "
-    "원문에서 시청하려면 [YouTube에서 보기](https://www.youtube.com/watch?v=0t0T7hMkIc8)를 클릭하세요."
+    "아래 영상은 **아랍어 초급자**를 위한 기초 학습 영상입니다. ✨\n\n"
+    "알파벳, 발음, 기본 문장 표현을 익히는 데 도움이 됩니다.\n\n"
+    "원문에서 시청하려면 [YouTube에서 보기](https://www.youtube.com/watch?v=4g2YGZC4T7E)를 클릭하세요."
 )
-st.video("https://www.youtube.com/watch?v=0t0T7hMkIc8")
+st.video("https://www.youtube.com/watch?v=4g2YGZC4T7E")
 
 # OpenAI API key input
 openai_api_key = st.text_input("🔑 OpenAI API Key", type="password")
@@ -33,7 +34,6 @@ if st.button("🔄 종료 / 초기화"):
 # Check for API key
 if not openai_api_key:
     st.info("Please add your OpenAI API key to continue.", icon="🗝️")
-
 else:
     # Initialize OpenAI client
     client = OpenAI(api_key=openai_api_key)
