@@ -48,7 +48,13 @@ else:
             ],
             stream=True,
         )
+     def end_chat():
+            st.caching.clear_cache()
+            st.stop()
 
+         if st.button('채팅 종료'):
+            end_chat()
+             
         # Stream the response to the chat using `st.write_stream`, then store it in 
         # session state.
         with st.chat_message("assistant"):
