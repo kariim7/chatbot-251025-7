@@ -13,6 +13,14 @@ st.write(
     "[OpenAI API 키 발급하기](https://platform.openai.com/account/api-keys)"
 )
 
+# 🎥 Reference YouTube video section
+st.subheader("🎬 참고 영상: 효과적인 언어 학습 방법")
+st.write(
+    "아래 영상은 언어를 효율적으로 배우는 방법에 대한 유용한 팁을 제공합니다. "
+    "원문에서 시청하려면 [YouTube에서 보기](https://www.youtube.com/watch?v=0t0T7hMkIc8)를 클릭하세요."
+)
+st.video("https://www.youtube.com/watch?v=0t0T7hMkIc8")
+
 # OpenAI API key input
 openai_api_key = st.text_input("🔑 OpenAI API Key", type="password")
 
